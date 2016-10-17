@@ -152,6 +152,10 @@ def main():
     else:
         guilds = []
         for guild in abandonedGuilds_sorted:
+            guild['guild']['name'] = lambda name: unidecode(name)
+            guild['guild']['decription'] = lambda name: unidecode(name)
+            guild['guild']['leaderMessage'] = lambda name: unidecode(name)
+            guild['leader']['profile']['name'] = lambda name: unidecode(name)
             guild['guild']['leaderInfo'] = guild['leader']
             guilds.append(guild['guild'])
         data = {
@@ -161,7 +165,7 @@ def main():
         with open(templateFile, 'r') as t:
             compiledTemplate = pymustache.compiled(t.read())
             compiledTemplate.filters['date'] = formatDate
-            outputData = compiledTemplate.render(unidecode(data))
+            outputData = compiledTemplate.render(data)
         
         if output != '':
             with open(output, 'w+') as outputFile:
