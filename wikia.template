@@ -3,7 +3,7 @@ guild
 The "relative time" dates (e.g., ''a day ago'' or ''4 months ago'') are all relative to the day you are looking on. They are intended to give a quick method of very roughly assessing the activity of a leader or guild.
 
 This info was generated using [https://github.com/MathWhiz/abandoned-guilds abandoned-guilds] on {{today | date}}.<br />
-'''Note:''' All dates follow a YYYY-MM-DD format.
+'''Note:''' All dates follow a YYYY-MM-DD format and all Unicode characters are converted to ASCII-like equivalents.
 ----
 
 {{#guilds}}

@@ -4,6 +4,7 @@ import sys, getopt, requests,pymustache
 from datetime import *
 from dateutil.parser import *
 from dateutil.relativedelta import *
+from unidecode import unidecode
 try:
     from tqdm import tqdm
 except:
@@ -160,7 +161,7 @@ def main():
         with open(templateFile, 'r') as t:
             compiledTemplate = pymustache.compiled(t.read())
             compiledTemplate.filters['date'] = formatDate
-            outputData = compiledTemplate.render(data)
+            outputData = compiledTemplate.render(unidecode(data))
         
         if output != '':
             with open(output, 'w+') as outputFile:
