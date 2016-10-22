@@ -10,15 +10,15 @@ This info was generated using [https://github.com/MathWhiz/abandoned-guilds aban
 ==NOT STARTED: {{name}}==
 '''Pirate Assigned''': None<br />
 '''Current Status''': Not Started
-===Guild Information===
-* '''Group ID''': [https://habitica.com/#/options/groups/guilds/{{_id}} {{_id}}]
-* '''Members''': {{memberCount}}
-* '''Most Recent Chat''': {{chat.0.timestamp | date}}
-===Leader: {leader display name}===
-* '''User ID''': [https://habitica.com/static/front#?memberId={{leader._id}} {{leader._id}}]
-* '''Created''': {{leaderInfo.auth.timestamps.created | date}}
-* '''Logged In''': {{leaderInfo.auth.timestamps.loggedin | date}}
-===Other Information===
+'''Guild Information''':
+* Group ID: [https://habitica.com/#/options/groups/guilds/{{_id}} {{_id}}]
+* Members: {{memberCount}}
+* Most Recent Chat: {{chat.0.timestamp | date}}
+'''Leader: {{leader.profile.name}}'''
+* User ID: [https://habitica.com/static/front#?memberId={{leader}} {{leader}}]
+* Created: {{leaderInfo.auth.timestamps.created | date}}
+* Logged In: {{leaderInfo.auth.timestamps.loggedin | date}}
+'''Other Information''':
 Description:<br />
 <blockquote>
 {{description}}
@@ -27,7 +27,7 @@ Leader Message:<br />
 <blockquote>
 {{leaderMessage}}
 </blockquote>
-===Pirate Discussion===
+'''Pirate Discussion''':
 None
 ----
 {{/guilds}}
