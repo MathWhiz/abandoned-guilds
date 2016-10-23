@@ -16,7 +16,7 @@ __TOC__
 * Members: {{memberCount}}
 * Most Recent Chat: {{chat.0.timestamp | date}}
 '''Leader: {{leaderInfo.profile.name}}'''
-* User ID: [https://habitica.com/static/front#?memberId={{leader}} {{leader}}]
+* User ID: [https://habitica.com/static/front#?memberId={{leaderInfo._id}} {{leaderInfo._id}}]
 * Created: {{leaderInfo.auth.timestamps.created | date}}
 * Logged In: {{leaderInfo.auth.timestamps.loggedin | date}}
 '''Other Information''':

@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
-import sys, getopt, requests,pymustache
+import sys, getopt, requests, pymustache
 from datetime import *
 from dateutil.parser import *
 from dateutil.relativedelta import *
 from unidecode import unidecode
+from time import sleep
 try:
     from tqdm import tqdm
 except:
@@ -44,14 +45,24 @@ usage: python {} [options]
     if num is negative: limit to the bottom num guilds (by size)
 '''.format(sys.argv[0], DEFAULT_TEMPLATE))
 
-def get(path, params={}):
-    r = requests.get(API_BASE + path, params=params, headers=AUTH).json()
-    if r['success']:
-        return r['data']
+def get(path, params={}, tried=0):
+    r = requests.get(API_BASE + path, params=params, headers=AUTH)
+    
+    if r.status_code == 200:
+        return r.json()['data']
+    elif r.status_code == 500:
+        # A server error occured, wait 5 seconds and try again unless it has been tried more than 5 times
+        if tried >= 5:
+            raise Exception('Failed too many times')
+        print 'Error code 500 encountered, waiting 5 seconds'
+        sleep(5)
+        tried += 1
+        return get(path, params, tried).json['data']
     else:
         print API_BASE + path
         print params
-        raise Exception('{0[error]}: {0[message]}'.format(r))
+        raise Exception('{0[error]}: {0[message]}'.format(r.json()))
+        
 
 def formatDate(dateString):
     parsedDate = parse(dateString, ignoretz=True)
@@ -143,21 +154,26 @@ def main():
                     'leader': leader,
                     'abandoned': timeDifference
                 })
-    # Sort by name, then reverse months
-    abandonedGuilds_sorted = sorted(sorted(abandonedGuilds, key=lambda guild: guild['guild']['name']), key=lambda guild: guild['abandoned'].years*12 + guild['abandoned'].months, reverse=True)
+    # Sort by id
+    abandonedGuilds_sorted = sorted(abandonedGuilds, key=lambda guild: guild['guild']['_id'])
     
     if not useTemplate:
         for abandonedGuild in abandonedGuilds_sorted:
             print u'{}: {} - {}'.format(abandonedGuild['guild']['name'], abandonedGuild['leader']['profile']['name'], abandonedGuild['abandoned'].years*12 + abandonedGuild['abandoned'].months)
     else:
         guilds = []
+        
+        # Deal with Unicode
+        transilerate = lambda string: unidecode(string) if type(string) is unicode else string
         for guild in abandonedGuilds_sorted:
-            guild['guild']['name'] = lambda name: unidecode(name)
-            guild['guild']['decription'] = lambda name: unidecode(name)
-            guild['guild']['leaderMessage'] = lambda name: unidecode(name)
-            guild['leader']['profile']['name'] = lambda name: unidecode(name)
+            guild['guild']['name'] = transilerate(guild['guild']['name'])
+            guild['guild']['description'] = transilerate(guild['guild'].setdefault('description', 'N/A'))
+            guild['guild']['leaderMessage'] = transilerate(guild['guild'].setdefault('leaderMessage', 'N/A'))
+            guild['leader']['profile']['name'] = transilerate(guild['leader']['profile']['name'])
             guild['guild']['leaderInfo'] = guild['leader']
             guilds.append(guild['guild'])
+        
+        # Get data ready
         data = {
             'guilds': guilds,
             'today': date.today().isoformat()
