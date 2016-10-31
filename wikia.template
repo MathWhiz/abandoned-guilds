@@ -1,6 +1,6 @@
 All details on this page were correct on '''{{today | date}}'''. Any changes made since then (e.g., inactive leaders who have started logging in again) will '''not''' be represented in this page unless someone edits them in manually.<br />
 
-The "relative time" dates (e.g., ''a day ago'' or ''4 months ago'') are all relative to the day you are looking on. They are intended to give a quick method of very roughly assessing the activity of a leader or guild.<br />
+The "relative time" dates (e.g., ''a day ago'' or ''4 months ago'') are all relative to the day that section was last updated. They are intended to give a quick method of very roughly assessing the activity of a leader or guild.<br />
 
 This info was generated using [https://github.com/MathWhiz/abandoned-guilds a Python script created by Accio Books!] on {{today | date}}.<br />
 '''Note:''' All dates follow a YYYY-mM-dD format and all Unicode characters are converted to ASCII-like equivalents. Guilds have been sorted by their guild IDs.
