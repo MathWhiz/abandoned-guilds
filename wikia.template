@@ -11,6 +11,7 @@ __TOC__
 ==NOT STARTED: {{name}}==
 '''Pirate Assigned''': None<br />
 '''Current Status''': Not Started
+'''Proposed Decision''':
 '''Guild Information''':
 * Group ID: [https://habitica.com/#/options/groups/guilds/{{_id}} {{_id}}]
 * Members: {{memberCount}}
