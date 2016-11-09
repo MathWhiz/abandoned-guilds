@@ -14,9 +14,9 @@ __TOC__
 '''Guild Information''':
 * Group ID: [https://habitica.com/#/options/groups/guilds/{{_id}} {{_id}}]
 * Members: {{memberCount}}
-* Most Recent Chat Message: {{chat.0.timestamp | date}}
-* 5th Chat Message: {{chat.4.timestamp | date}}
-* 20th Chat Message: {{chat.19.timestamp | date}}
+* Most Recent Chat Message: {{chat.1st | date}}
+* 5th Chat Message: {{chat.5th | date}}
+* 20th Chat Message: {{chat.20th | date}}
 '''Leader: {{leaderInfo.profile.name}}'''
 * User ID: [https://habitica.com/static/front#?memberId={{leaderInfo._id}} {{leaderInfo._id}}]
 * Created: {{leaderInfo.auth.timestamps.created | date}}

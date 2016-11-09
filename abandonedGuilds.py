@@ -4,6 +4,7 @@ import sys, getopt, requests, pymustache
 from datetime import *
 from dateutil.parser import *
 from dateutil.relativedelta import *
+from time import *
 from unidecode import unidecode
 from time import sleep
 try:
@@ -65,13 +66,26 @@ def get(path, params={}, tried=0):
         
 
 def formatDate(dateString):
-    parsedDate = parse(dateString, ignoretz=True)
-    splitDate = {
-        'year': parsedDate.year,
-        'month': parsedDate.month,
-        'day': parsedDate.day,
-    }
-    return '{{{{displaydate|{0[day]}|{0[month]}|{0[year]}}}}}'.format(splitDate)
+    tqdm.write(dateString)
+    try:
+        parsedDate = parse(dateString, ignoretz=True)
+        splitDate = {
+            'year': parsedDate.year,
+            'month': parsedDate.month,
+            'day': parsedDate.day,
+        }
+    except:
+        try:
+            parsedDate = gmtime(int(dateString)/1000)
+            splitDate = {
+                'year': parsedDate.tm_year,
+                'month': parsedDate.tm_mon,
+                'day': parsedDate.tm_mday,
+            }
+        except:
+            tqdm.write('Error! {0}'.format(sys.exc_info()[0]))
+    formattedDate = '{{{{displaydate|{0[day]}|{0[month]}|{0[year]}}}}}'.format(splitDate)
+    return formattedDate
 
 def main():
     personal = False
@@ -171,6 +185,12 @@ def main():
             guild['guild']['leaderMessage'] = transilerate(guild['guild'].setdefault('leaderMessage', 'N/A'))
             guild['leader']['profile']['name'] = transilerate(guild['leader']['profile']['name'])
             guild['guild']['leaderInfo'] = guild['leader']
+            # Chat
+            guild['guild']['chat'] = {
+                '1st': str(guild['guild']['chat'][0]['timestamp']),
+                '5th': str(guild['guild']['chat'][4]['timestamp']),
+                '20th': str(guild['guild']['chat'][19]['timestamp']),
+            }
             guilds.append(guild['guild'])
         
         # Get data ready
@@ -180,7 +200,7 @@ def main():
         }
         with open(templateFile, 'r') as t:
             compiledTemplate = pymustache.compiled(t.read())
-            compiledTemplate.filters['date'] = formatDate
+            compiledTemplate.filters['date'] = lambda date: formatDate(date)
             outputData = compiledTemplate.render(data)
         
         if output != '':
