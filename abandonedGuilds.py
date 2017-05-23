@@ -66,26 +66,28 @@ def get(path, params={}, tried=0):
         
 
 def formatDate(dateString):
-    tqdm.write(dateString)
-    try:
-        parsedDate = parse(dateString, ignoretz=True)
-        splitDate = {
-            'year': parsedDate.year,
-            'month': parsedDate.month,
-            'day': parsedDate.day,
-        }
-    except:
+    if dateString != 'N/A':
         try:
-            parsedDate = gmtime(int(dateString)/1000)
+            parsedDate = parse(dateString, ignoretz=True)
             splitDate = {
-                'year': parsedDate.tm_year,
-                'month': parsedDate.tm_mon,
-                'day': parsedDate.tm_mday,
+                'year': parsedDate.year,
+                'month': parsedDate.month,
+                'day': parsedDate.day,
             }
         except:
-            tqdm.write('Error! {0}'.format(sys.exc_info()[0]))
-    formattedDate = '{{{{displaydate|{0[day]}|{0[month]}|{0[year]}}}}}'.format(splitDate)
-    return formattedDate
+            try:
+                parsedDate = gmtime(int(dateString)/1000)
+                splitDate = {
+                    'year': parsedDate.tm_year,
+                    'month': parsedDate.tm_mon,
+                    'day': parsedDate.tm_mday,
+                }
+            except:
+                tqdm.write('Error! {0}'.format(sys.exc_info()[0]))
+        formattedDate = '{{{{displaydate|{0[year]}|{0[month]}|{0[day]}}}}}'.format(splitDate)
+        return formattedDate
+    else:
+        return 'N/A'
 
 def main():
     personal = False
@@ -115,7 +117,7 @@ def main():
             limit = int(a)
         elif o in ('-o', '--output'):
             output = a
-    
+
     if (output != '') and not useTemplate:
         print 'Use -o with --t'
         usage()
@@ -134,13 +136,8 @@ def main():
 
     # Get group IDs
     allGroups = get('groups', {'type': 'guilds' if personal else 'publicGuilds'})
-    
-    groups = allGroups[:]
-    
-    if limit > 0:
-        groups = allGroups[:limit]
-    elif limit < 0:
-        groups = allGroups[limit:]
+
+    groups = (allGroups[:limit] if limit > 0 else allGroups[limit:]) if limit != 0 else allGroups[:]
     
     # Set up progress bar
     groupsBar = tqdm(groups, unit="guilds")
@@ -187,9 +184,9 @@ def main():
             guild['guild']['leaderInfo'] = guild['leader']
             # Chat
             guild['guild']['chat'] = {
-                '1st': str(guild['guild']['chat'][0]['timestamp']),
-                '5th': str(guild['guild']['chat'][4]['timestamp']),
-                '20th': str(guild['guild']['chat'][19]['timestamp']),
+                '1st': str(guild['guild']['chat'][0]['timestamp']) if len(guild['guild']['chat']) >= 1 else 'N/A',
+                '5th': str(guild['guild']['chat'][4]['timestamp']) if len(guild['guild']['chat']) >= 5 else 'N/A',
+                '20th': str(guild['guild']['chat'][19]['timestamp']) if len(guild['guild']['chat']) >= 20 else 'N/A',
             }
             guilds.append(guild['guild'])
         
