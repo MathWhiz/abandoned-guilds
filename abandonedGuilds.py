@@ -120,7 +120,7 @@ def main():
         for guild in abandonedGuilds_sorted:
             guild['guild']['name'] = transilerate(guild['guild']['name'])
             guild['guild']['description'] = transilerate(guild['guild'].setdefault('description', 'N/A'))
-            guild['guild']['leaderMessage'] = transilerate(guild['guild'].setdefault('leaderMessage', 'N/A'))
+            guild['guild']['summary'] = transilerate(guild['guild'].setdefault('summary', 'N/A'))
             guild['leader']['profile']['name'] = transilerate(guild['leader']['profile']['name'])
             guild['guild']['leaderInfo'] = guild['leader']
             # Chat

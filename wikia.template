@@ -25,9 +25,9 @@ __TOC__
 {{#guilds}}
 ==NOT STARTED: {{name}}==
 '''Pirate Assigned''': None<br />
-'''Approved By''': <br />
+'''Approved By''': N/A<br />
 '''Current Status''': Not Started<br />
-'''Proposed Decision''': <br />
+'''Proposed Decision''': N/A<br />
 '''Guild Information''':
 * Group ID: [https://habitica.com/#/options/groups/guilds/{{_id}} {{_id}}]
 * Members: {{memberCount}}
@@ -35,18 +35,20 @@ __TOC__
 * 5th Chat Message: {{chat.5th | date}}
 * 20th Chat Message: {{chat.20th | date}}
 '''Leader: {{leaderInfo.profile.name}}'''
-* User ID: [https://habitica.com/static/front#?memberId={{leaderInfo._id}} {{leaderInfo._id}}]
+* User ID: {{leaderInfo._id}}
 * Created: {{leaderInfo.auth.timestamps.created | date}}
-* Logged In: {{leaderInfo.auth.timestamps.loggedin | date}}
-'''Other Information''':
+* Last Log-in: {{leaderInfo.auth.timestamps.loggedin | date}}
+'''Other Information''':<br />
+Only Leader Challenges: {{leaderOnly.challenges}}<br />
+
+Summary:<br />
+<blockquote>
+{{summary}}
+</blockquote>
+
 Description:<br />
 <blockquote>
 {{description}}
-</blockquote>
-
-Leader Message:<br />
-<blockquote>
-{{leaderMessage}}
 </blockquote>
 
 '''Pirate Discussion''':
