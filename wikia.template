@@ -29,7 +29,7 @@ __TOC__
 '''Current Status''': Not Started<br />
 '''Proposed Decision''': N/A<br />
 '''Guild Information''':
-* Group ID: [https://habitica.com/#/options/groups/guilds/{{_id}} {{_id}}]
+* Group ID: [https://habitica.com/groups/guilds/{{_id}} {{_id}}]
 * Members: {{memberCount}}
 * Most Recent Chat Message: {{chat.1st | date}}
 * 5th Chat Message: {{chat.5th | date}}
